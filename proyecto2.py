@@ -1,56 +1,70 @@
 
-
+#Función para ordenar las palabras en una lista
+#y en una página
 def listaPalabras(lista:list):
     m = len(lista)
     n = len(lista[0])
+    #Inicializa la lista ordenada
     listaOrd = list(0 for i in range(0,m))
     palabras = []
 
     for i in range(0,m):
+        #Insertar número de la lista por posición dada
         listaOrd[lista[i][0]] = lista[i][1:n]
 
     for i in range(0,m):
+        #Concatenar páginas ordenadas
         palabras = palabras + listaOrd[i]
 
+#Retorna todas las palabras ordenadas en una lista
     return palabras
 
 
 class Pandora:
 
     def ordenar(self, palabras):
+        #Inicializar lista de adyacencia como set en Python
         lista_adj = {c: set() for w in palabras for c in w}
         for i in range(len(palabras)-1):
+            #Definir palabra actual recorrida y siguiente
             actual,siguiente = palabras[i],palabras[i+1]
+            #Longitud mínima de la cadena entre las dos palabras
             minLen = min(len(actual),len(siguiente))
             
+            #Si existe una contradicción - es un prefijo de la palabra anterior y va después
             if ((len(actual) > len(siguiente)) and (actual[:minLen] == siguiente[:minLen])):
                 return "ERROR"
 
             for j in range(minLen):
                 if actual[j] != siguiente[j]:
+                    #Añadir conexión en lista de adyacencia
                     lista_adj[actual[j]].add(siguiente[j])
                     break       
 
         sol = []
         visitado = {}
 
-        def dfs(c):
-            if c in visitado:
-                return visitado[c]
-
-            visitado[c] = True
-            for cond in lista_adj[c]:
+        #DUsar DFS para detectar ciclos dentro del grafo
+        def dfs(l):
+            #Inicializar l como el camino a visitar
+            if l in visitado:
+                return visitado[l]
+            visitado[l] = True
+            for cond in lista_adj[l]:
+                #True si se detecta ciclo
                 if dfs(cond):
                     return True
-            
-            sol.append(c)
-            visitado[c] = False
+            #Si no hay ciclos, añade la letra en el resultado y 
+            #marca el nodo como visitado
+            sol.append(l)
+            visitado[l] = False
 
-        
+        #Iterar DFS dentro de todos los caracteres encontrados
         for ciclo in sorted(lista_adj.keys(), reverse = True):
+            #Si hay un ciclo detectado, retorna error
             if dfs(ciclo):
                 return "ERROR"
-        
+        #Invierte el recorrido DFS de las letras encontrado
         sol.reverse()
         return "".join(sol)
 
