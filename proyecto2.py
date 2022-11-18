@@ -1,6 +1,8 @@
 
 #Función para ordenar las palabras en una lista
 #y en una página
+import sys
+import time
 def listaPalabras(lista:list):
     m = len(lista)
     n = len(lista[0])
@@ -75,9 +77,9 @@ list1 = [[0,'xx','xp','pj','jjj','jjw']]
 list2 = [[1,"cc","cb"],[0,"ab","ac"]]
 list3 = [[1,'mm','mh','nan','nak'],[0,'ab','ah','an','mb']]
 
+s = Pandora()
 
-
-list00 = listaPalabras(list0)
+"""list00 = listaPalabras(list0)
 list11 = listaPalabras(list1)
 list22 = listaPalabras(list2)
 list33 = listaPalabras(list3)
@@ -90,7 +92,30 @@ s = Pandora()
 print(s.ordenar(list00))
 print(s.ordenar(list11))
 print(s.ordenar(list22))
-print(s.ordenar(list33))
+print(s.ordenar(list33))"""
+
+def main():
+    linea = sys.stdin.readline() 
+    casos = int(linea)
+    linea = sys.stdin.readline()
+    sumaT = 0
+    for i in range(0,casos):
+       numeros = [int(num) for num in linea.split()]
+       start = (time.time())
+       lista=[]
+       for i in range (0,numeros[0]):
+        linea = sys.stdin.readline()
+        pagina=[obj for obj in linea.split()]
+        pagina[0]=int(pagina[0])
+        lista.append(pagina)
+       ordenado= listaPalabras(lista) 
+       respuesta = s.ordenar(ordenado)
+       end = (time.time())
+       sumaT = sumaT + (end - start) #Tiempo acumulado
+       print((respuesta))
+       linea = sys.stdin.readline()
+    print("Time: "+ str(sumaT))    
+main()
 
 
 """
