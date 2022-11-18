@@ -2,7 +2,7 @@
 #Jaime Alfonso Ruiz - 202116525
 
 #Función para ordenar las palabras en una lista
-#y en una 
+#y en una página
 
 import sys
 import time
