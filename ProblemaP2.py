@@ -1,8 +1,13 @@
+#Santiago Pardo Morales - 202013025
+#Jaime Alfonso Ruiz - 202116525
 
 #Función para ordenar las palabras en una lista
-#y en una página
+#y en una 
+
 import sys
 import time
+
+
 def listaPalabras(lista:list):
     m = len(lista)
     n = len(lista[0])
