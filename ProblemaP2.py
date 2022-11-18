@@ -28,25 +28,25 @@ class Pandora:
         #Inicializar lista de adyacencia como set en Python
         lista_adj = {c: set() for w in palabras for c in w}
         for i in range(len(palabras)-1):
-            #Definir palabra actual recorrida y siguiente
+            #Definir palabra actual recorrida y siguiente a recorrer
             actual,siguiente = palabras[i],palabras[i+1]
             #Longitud mínima de la cadena entre las dos palabras
             minLen = min(len(actual),len(siguiente))
             
-            #Si existe una contradicción - es un prefijo de la palabra anterior y va después
+            #Existe un prefijo de la palabra anterior - es una contradicción por lo tanto no es posible determinar el ordenamiento
             if ((len(actual) > len(siguiente)) and (actual[:minLen] == siguiente[:minLen])):
                 return "ERROR"
 
             for j in range(minLen):
                 if actual[j] != siguiente[j]:
-                    #Añadir conexión en lista de adyacencia
+                    #Añadir nodo en lista de adyacencia
                     lista_adj[actual[j]].add(siguiente[j])
                     break       
 
         sol = []
         visitado = {}
 
-        #DUsar DFS para detectar ciclos dentro del grafo
+        #Usar DFS para detectar ciclos dentro del grafo
         def dfs(l):
             #Inicializar l como el camino a visitar
             if l in visitado:
@@ -61,38 +61,17 @@ class Pandora:
             sol.append(l)
             visitado[l] = False
 
-        #Iterar DFS dentro de todos los caracteres encontrados
+        #Iterar DFS dentro de todos los caracteres diferentes encontrados
         for ciclo in sorted(lista_adj.keys(), reverse = True):
             #Si hay un ciclo detectado, retorna error
             if dfs(ciclo):
                 return "ERROR"
-        #Invierte el recorrido DFS de las letras encontrado
+        #Invierte el recorrido DFS de las letras, por ordenamiento inverso
         sol.reverse()
+        #Concatenar letras en solucion
         return "".join(sol)
 
-
-
-list0 = [[1,'x'],[0,'z'],[2,'z']]
-list1 = [[0,'xx','xp','pj','jjj','jjw']]
-list2 = [[1,"cc","cb"],[0,"ab","ac"]]
-list3 = [[1,'mm','mh','nan','nak'],[0,'ab','ah','an','mb']]
-
 s = Pandora()
-
-"""list00 = listaPalabras(list0)
-list11 = listaPalabras(list1)
-list22 = listaPalabras(list2)
-list33 = listaPalabras(list3)
-
-
-
-s = Pandora()
-
-#Casos ordenando lista
-print(s.ordenar(list00))
-print(s.ordenar(list11))
-print(s.ordenar(list22))
-print(s.ordenar(list33))"""
 
 def main():
     linea = sys.stdin.readline() 
@@ -101,8 +80,8 @@ def main():
     sumaT = 0
     for i in range(0,casos):
        numeros = [int(num) for num in linea.split()]
-       start = (time.time())
        lista=[]
+       start = time.time()
        for i in range (0,numeros[0]):
         linea = sys.stdin.readline()
         pagina=[obj for obj in linea.split()]
@@ -116,12 +95,3 @@ def main():
        linea = sys.stdin.readline()
     print("Time: "+ str(sumaT))    
 main()
-
-
-"""
-#Casos sin ordenar lista
-print(s.ordenar(["h","hjh","hjmh","hm","j","jjm","m","mh","mmhj"]))
-print(s.ordenar(["xx","xp","pj","jjj","jjw"]))
-print(s.ordenar(["ab","ac","cc","cb"]))
-print(s.ordenar(["ab","ah","an","mb","mm","mh","nan","nak"]))
-"""
